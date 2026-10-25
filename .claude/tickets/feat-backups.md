@@ -1,6 +1,6 @@
 # feat/backups: phase 4, backups and recovery
 
-Date: 2026-10-25. Status: uncommitted, waiting for server setup and test.
+Date: 2026-10-25. Status: committed (f604d4e..2d4236b), not pushed.
 
 ## Changes
 - deploy/backup.sh (orma-backup): pg_dump -Fc + check, tar with .env.prod, compose.prod.yml, secrets/, .deployed-tag,
@@ -29,3 +29,14 @@ bash -n on all scripts. Not run: Docker Desktop was off, no shellcheck or age lo
 - tools/private-files.sh save|restore: copies local-only files to ../orma-private (commit + push), restore also
   writes .git/info/exclude. Tested against a throwaway bare repo and a fresh clone.
 - backup.env.example: RCLONE_CONFIG_ORMA_REGION=auto. recovery.md points to the Bitwarden item names.
+
+## Server setup and test (2026-10-25)
+- Bitwarden (EU) folder Orma: SSH key, .env.prod, server info, age key, backup.env (secure notes; web vault SSH key type
+  cannot import a key). Private repo orma-private created.
+- R2 bucket orma-backups (WEUR), lifecycle 400 d, bucket lock 28 d, bucket-scoped token. healthchecks.io check daily/2 h.
+- setup-server.sh run, timer next 03:20 UTC. First backup 64K in daily/ and monthly/.
+- rclone 1.60.1 (Ubuntu) + R2: PUT 200, then HEAD ?versionId= answers 501 (R2 does not implement it) -> retry noise.
+  Fix: RCLONE_CONFIG_ORMA_NO_HEAD=true (integrity still checked by Content-MD5 on PUT). Added on the server and example.
+- restore.sh --check on the laptop: OK, 8 tables (users 1, categories 13, exchange_rates 464).
+- restore.sh: clear "File not found" for a missing local file. Server copy still the old one: copy again.
+- Resend key was pasted in the chat: rotation recommended.

@@ -1,12 +1,12 @@
 # Orma: development status
 
-Updated 2026-10-22. Shared by Claude Code (IntelliJ) and Claude in the claude.ai app: read it before
+Updated 2026-10-25. Shared by Claude Code (IntelliJ) and Claude in the claude.ai app: read it before
 starting a part, update it when a part is merged. Not in git. Full plan: the "Orma: Project Plan" doc.
 
 ## Where we are
 
-- v1 features are all built and merged (phases 1 to 3). Last merged: PR #25 (server setup and deploy). Prod live on https://orma-app.app (Resend email working), deploys on merge to main.
-- Next: phase 4, deploy and phone/desktop install, on free hosting only.
+- v1 features are all built and merged (phases 1 to 3). Last merged: PR #26 (backups and recovery). Prod live on https://orma-app.app (Resend email working), deploys on merge to main.
+- Next: finish phase 4: uptime monitor, phone pass, ASVS L1 (deploy and backups done).
 - Open PR to leave alone: Dependabot #5 (TypeScript 7), until Angular supports it.
 
 ## Done
@@ -36,7 +36,8 @@ Hosting: Oracle Cloud Always Free ARM VM, own domain (about 14 USD/year), Let's 
 - [x] Production compose: PostgreSQL on the private network only, Caddy with HTTPS
 - [x] Server: VM, firewall 80 and 443 only, SSH keys, Docker
 - [x] Deploy from GitHub Actions on merge to main
-- [ ] Nightly encrypted database backups off the VM, restore tested
+- [x] Nightly encrypted database backups off the VM, restore tested (feat/backups: age + rclone to
+      Cloudflare R2, healthchecks.io, restore check OK 2026-10-25; runbook docs/recovery.md)
 - [x] Frontend security headers at Caddy (CSP, HSTS); the API already sends CSP, frame deny,
       referrer and permissions policy
 - [x] PWA: manifest, icons, service worker, installable on Android, iPhone and desktop
@@ -47,8 +48,9 @@ Security baseline items still open: audit log of security events, OWASP Dependen
 NVD API key), ZAP baseline scan in CI. Already in place: gitleaks, Dependabot, npm audit in CI,
 404 tests for other users' data (accounts, categories).
 
-Next: backups (real data is now in prod) with the small docs fix (Gmail mentions to Resend), then
-statement import locally. Check GitHub variable PUBLIC_URL is https://orma-app.app.
+Next: merge feat/health-check (Caddy proxies /actuator/health, smoke test uses it), then the
+UptimeRobot keyword monitor on it. Then phone pass, ASVS L1. Check GitHub variable PUBLIC_URL is
+https://orma-app.app. Delete the DuckDNS name.
 
 Server: Oracle eu-zurich-1 (Pay As You Go, budget alerts at 1), A1 VM 144.24.237.117, domain
 `orma-app.app` (Cloudflare Registrar, DNS only), email through Resend SMTP (Gmail dropped: new account blocked).

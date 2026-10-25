@@ -50,7 +50,7 @@ NVD API key), ZAP baseline scan in CI. Already in place: gitleaks, Dependabot, n
 
 Next: merge feat/health-check (Caddy proxies /actuator/health, smoke test uses it), then the
 UptimeRobot keyword monitor on it. Then phone pass, ASVS L1. Check GitHub variable PUBLIC_URL is
-https://orma-app.app. Delete the DuckDNS name.
+https://orma-app.app. Delete the DuckDNS name. new-machine.md: gh auth login needs the workflow scope.
 
 Server: Oracle eu-zurich-1 (Pay As You Go, budget alerts at 1), A1 VM 144.24.237.117, domain
 `orma-app.app` (Cloudflare Registrar, DNS only), email through Resend SMTP (Gmail dropped: new account blocked).

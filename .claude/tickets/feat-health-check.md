@@ -1,6 +1,6 @@
 # feat/health-check: phase 4, public health check and uptime monitor
 
-Date: 2026-10-25. Status: committed (d38ea5d), not pushed.
+Date: 2026-10-25. Status: pushed, PR to merge.
 
 ## Why
 /actuator/health answered 200 from the SPA fallback (Caddy proxied /api/* only), and /api/v1/auth/csrf does not touch
@@ -17,3 +17,5 @@ caddy validate (caddy:2-alpine) OK. Not run end to end: the deploy smoke test ch
 ## Open
 - Alexis: push, merge, open /actuator/health (expect {"status":"UP"}), create the UptimeRobot monitor, Bitwarden login.
 - Next part: phone pass on real devices, then ASVS L1.
+- Push was rejected: git uses gh as credential helper for github.com, token lacked the workflow scope.
+  Fixed with `gh auth refresh -h github.com -s workflow`. Todo: add to docs/new-machine.md (gh auth login with workflow).
